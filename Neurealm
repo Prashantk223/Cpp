@@ -1,0 +1,394 @@
+#include <stdio.h>
+
+void InsertionSort(int arr[], int n)
+{
+	for(int i = 1; i < n; i++)
+	{
+		int j = i - 1;
+		int temp = arr[i];
+		while(j>=0 && arr[j] > temp)
+		{
+			arr[j+1] = arr[j];
+			j--;
+		}
+		arr[j+1] = temp;
+		
+	}
+	return 0;
+}
+
+void bubbleSort(int arr[], int n)
+{
+	int i, j;
+	for(i = 0; i < n-1; i++)
+	{
+		for(j = 0; j < n - i - 1; j++)
+		{
+			if(arr[j] > arr[j + 1])
+			{
+				int temp = arr[j+1];
+				arr[j+1] = arr[j];
+				arr[j] = temp;
+			}
+		}
+	}
+}
+
+void selectionSort(int data[], int len)
+{
+	int min = 0;
+	for(int i = 0; i < len-1; i++)
+	{
+		min = i;
+		for(int j = i+1; j < len; j++)
+		{
+			if(data[j] < data[min])
+			{
+				min = j;
+			}
+		}
+		
+		int temp = data[min];
+		data[min] = data[i];
+		data[i] = temp;
+	}
+
+}
+//circular que using LL
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *link;
+};
+
+struct node *front = NULL, *rear = NULL;
+
+void enqueue(int inData)
+{
+    struct node *temp = malloc(sizeof(struct node));
+    temp->data = inData;
+
+    if(front == NULL && rear == NULL)
+    {
+        front = rear = temp;
+        rear->link = front;   // circular link
+    }
+    else
+    {
+        rear->link = temp;
+        rear = temp;
+        rear->link = front;
+    }
+}
+
+int dequeue()
+{
+    int ret;
+    
+    if(front == NULL)
+    {
+        printf("Underflow\n");
+        return -1;
+    }
+    
+    if(front == rear)
+    {
+        ret = front->data;
+        free(front);
+        front = rear = NULL;
+    }
+    else
+    {
+        struct node *temp = front;
+        ret = temp->data;
+        front = front->link;
+        rear->link = front;
+        free(temp);
+    }
+
+    return ret;
+}
+
+Storage Class	Scope	        	Lifetime	    	Default Value
+auto	       	Local (block)		Till block ends		Garbage
+register	   	Local	        	Till block ends		Garbage
+static	       	Local or global		Entire program		0
+extern	       	Global	        	Entire program		0
+
+| Variable                   | Section             |
+| -------------------------- | ------------------- |
+| `static const int x = 10;` | `.rodata` (usually) |
+| `static const int x;`      | `.bss`              |
+
+
+const int x = 10; - 
+	If global → external linkage
+	Accessible from other files using extern
+	Properties
+
+	Has type
+	Memory is allocated
+	Value cannot be modified
+	
+static const int x = 10; - Read-only variable with internal linkage. .rodata
+#define X 10 - Preprocessor macro
+enum { X = 10 }; - Enumeration constant
+Properties
+	Compile-time constant
+	No memory allocation
+	Has integer type
+	Good for array sizes
+	
+| Feature               | #define | const int | static const | enum    |
+| --------------------- | ------- | --------- | ------------ | ------- |
+| Type                  | ❌ none  | ✔ typed   | ✔ typed      | ✔ int   |
+| Memory                | ❌ no    | ✔ yes     | ✔ yes        | ❌ no    |
+| Scope control         | ❌ none  | external  | file scope   | depends |
+| Debugging             | ❌ bad   | ✔ good    | ✔ good       | ✔ good  |
+| Compile-time constant | ✔       | sometimes | sometimes    | ✔       |
+
+
+| Feature        | malloc()                       | calloc()                        |
+| -------------- | ------------------------------ | ------------------------------- |
+| Initialization | Garbage (uninitialized)        | Zero-initialized                |
+| Arguments      | size                           | num, size                       |
+| Syntax         | `ptr = malloc(sizeof(int)*5);` | `ptr = calloc(5, sizeof(int));` |
+| Memory         | Single block                   | Multiple blocks                 |
+| Return type    | void*                          | void*                           |
+
+
+struct node{
+	struct node *next;
+	int data;
+};
+
+bool circularLinkedList(struct node *head)
+{
+	struct node *fast = head;
+	struct node *slow = head;
+	
+	while(fast && slow && fast->next)
+	{
+		fast = fast->next->next;
+		slow = slow->next;
+		
+		if(fast == slow)
+		{
+			return true;
+		}
+		
+	}
+	return false;
+}
+
+
+struct node *head = NULL, *temp = NULL;
+void circularLL()
+{
+
+	
+	for(int i = 0; i < 5; i++)
+	{
+		nodeT = malloc(sizeof(struct node));
+		nodeT->data = i;
+		nodeT->next = NULL;
+		if(head == NULL)
+		{
+			head = temp = nodeT;
+		}
+		else
+		{
+			temp->next = nodeT;
+			temp = temp->next;
+		}
+	}
+	temp->next = head;
+}
+int add_each_digitofnumber(int num)
+{
+	int ret = 0;
+	while(num)
+	{
+		ret += num % 10;
+		num = num / 10;
+	}
+	return ret;
+}
+
+
+print a diamond STAR pattern.
+    *
+   ***
+  *****
+ *******	
+*********
+ *******
+  *****
+   ***
+    *
+
+How it Works
+
+Upper half:
+	Spaces decrease from n-1 to 0
+	Stars increase from 1 to 2*n-1
+
+Lower half:
+	Spaces increase from 1 to n-1
+	Stars decrease from 2*(n-1)-1 to 1
+	#include <stdio.h>
+
+int main() {
+    int n, i, j;
+
+    printf("Enter the number of rows for the upper half of the diamond: ");
+    scanf("%d", &n);
+
+    // Upper half of diamond
+    for(i = 1; i <= n; i++) {
+        // Print leading spaces
+        for(j = 1; j <= n - i; j++) {
+            printf(" ");
+        }
+        // Print stars
+        for(j = 1; j <= 2*i - 1; j++) {
+            printf("*");
+        }
+        printf("\n");
+    }
+
+    // Lower half of diamond
+    for(i = n-1; i >= 1; i--) {
+        // Print leading spaces
+        for(j = 1; j <= n - i; j++) {
+            printf(" ");
+        }
+        // Print stars
+        for(j = 1; j <= 2*i - 1; j++) {
+            printf("*");
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
+
+bool isPrime(int n)
+{
+    int count = 0;
+    if(n <= 1) return false;  // 0 and 1 are not prime
+    if(n == 2) return true;   // 2 is prime
+    if(n % 2 == 0) return false; // even numbers > 2 are not prime
+
+    for(int i = 3; i <= n; i += 2)   // ← Fixed i+2 → i += 2
+    {
+        if(n % i == 0) count++;
+    }
+
+    if(count) return false;
+
+    return true;
+}
+#include <stdio.h>
+#include <stdbool.h>
+
+bool isPalindrome(int n) {
+    int original = n;
+    int reversed = 0;
+
+    while(n != 0) {
+        reversed = reversed * 10 + (n % 10);
+        n = n / 10;
+    }
+
+    return (original == reversed);
+}
+
+int main() {
+    int num;
+    printf("Enter a number: ");
+    scanf("%d", &num);
+
+    if(isPalindrome(num))
+        printf("%d is a palindrome.\n", num);
+    else
+        printf("%d is not a palindrome.\n", num);
+
+    return 0;
+}
+
+#include <stdio.h>
+#include <limits.h>
+
+int main()
+{
+    int arr[] = {10, 45, 23, 67, 34};
+    int n = sizeof(arr)/sizeof(arr[0]);
+
+    int largest = INT_MIN;
+    int second = INT_MIN;
+
+    for(int i = 0; i < n; i++)
+    {
+        if(arr[i] > largest)
+        {
+            second = largest;
+            largest = arr[i];
+        }
+        else if(arr[i] > second && arr[i] != largest)
+        {
+            second = arr[i];
+        }
+    }
+
+    printf("Second largest element: %d\n", second);
+
+    return 0;
+}
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char str[100];
+    int freq[256] = {0};
+    int max = 0;
+    char result;
+
+    printf("Enter string: ");
+    fgets(str, sizeof(str), stdin);
+
+    for(int i = 0; str[i] != '\0'; i++)
+    {
+        freq[(unsigned char)str[i]]++;
+    }
+
+    for(int i = 0; i < 256; i++)
+    {
+        if(freq[i] > max)
+        {
+            max = freq[i];
+            result = i;
+        }
+    }
+
+    printf("Most frequent character: %c (occurs %d times)\n", result, max);
+
+    return 0;rxd
+}
+
+void fibonacci(int n)
+{
+    int a = 0, b = 1, next;
+
+    for(int i = 0; i < n; i++)
+    {
+        printf("%d ", a);
+        next = a + b;
+        a = b;
+        b = next;
+    }
+}
